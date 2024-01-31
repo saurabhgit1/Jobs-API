@@ -20,7 +20,7 @@ const start = async () => {
       console.log("server started at" + process.env.PORT);
     });
   } catch (error) {
-    console.error(error);
+    console.error('start log',error);
   }
 };
 start();
