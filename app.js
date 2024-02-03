@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
+// import expessasyncerrors from "express-async-errors";
 import jobsRoutes from "./routers/jobs.js";
 import authRoutes from "./routers/auth.js";
 import routeNotFoundMW from "./middlewares/route-not-found.js";

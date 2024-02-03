@@ -4,9 +4,7 @@ const errorHandler = (error, req, res, next) => {
   if (error instanceof CustomErrors) {
     return res.status(error.statusCode).json({ message: error.message });
   }
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ message: "Server Error!!!" });
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
 };
 
 export default errorHandler;
