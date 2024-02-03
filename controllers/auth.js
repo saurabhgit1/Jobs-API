@@ -1,8 +1,7 @@
 import BadRequestErrors from "../errors/bad-request-errors.js";
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
-import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
 const register = async (req, res, next) => {
   try {
     // below validation is optional as we have put validation in mongoose schema as well.
@@ -20,7 +19,12 @@ const register = async (req, res, next) => {
     // const user = await User.create({ ...req.body });
     const user = await User.create({ email, name, password });
 
-    res.status(StatusCodes.CREATED).json({ user });
+    //token creation
+    const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
+      expiresIn: "30d",
+    });
+
+    res.status(StatusCodes.CREATED).json({ name: user.name, token });
   } catch (error) {
     // console.error(error);
     next(error);
