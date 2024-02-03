@@ -20,11 +20,11 @@ const register = async (req, res, next) => {
     const user = await User.create({ email, name, password });
 
     //token creation
-    const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
-      expiresIn: "30d",
-    });
-
-    res.status(StatusCodes.CREATED).json({ name: user.name, token });
+    // const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
+    //   expiresIn: "30d",
+    // });
+    const token = user.createJWT();
+    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
   } catch (error) {
     // console.error(error);
     next(error);

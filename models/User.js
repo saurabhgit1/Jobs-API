@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -27,5 +28,13 @@ UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+//below methods are known as instance method of Schema
+UserSchema.methods.createJWT = function () {
+  const token = jwt.sign({ userId: this._id, name: this.name }, "JWTSecret", {
+    expiresIn: "30d",
+  });
+  return token;
+};
 
 export default mongoose.model("User", UserSchema);
