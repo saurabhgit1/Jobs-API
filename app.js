@@ -7,13 +7,14 @@ import authRoutes from "./routers/auth.js";
 import routeNotFoundMW from "./middlewares/route-not-found.js";
 import errorHandlerMW from "./middlewares/error-handler.js";
 import connectToDB from "./db/connectdb.js";
+import checkAuth from "./middlewares/auth.js";
 const app = express();
 
 app.use(express.json());
 
 //routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/jobs", jobsRoutes);
+app.use("/api/v1/jobs", checkAuth,jobsRoutes);
 
 app.use(routeNotFoundMW);
 app.use(errorHandlerMW);

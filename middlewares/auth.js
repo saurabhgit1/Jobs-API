@@ -7,8 +7,9 @@ const checkAuth = (req, res, next) => {
     if (!authorization || !authorization.startsWith("Bearer ")) {
       throw new AuthErrors("Token Not Present");
     }
-    const token = authorization.split(" ")[0];
-    const decode = jwt.verify(token, process.env.SECRET_TEXT);
+    const token = authorization.split(" ")[1];
+    const decode = jwt.verify(token, "JWTSecret");
+    req.user = { userId: decode.userId, name: decode.name };
     next();
   } catch (error) {
     // console.error(error);
