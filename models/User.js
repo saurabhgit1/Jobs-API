@@ -37,4 +37,10 @@ UserSchema.methods.createJWT = function () {
   return token;
 };
 
+//instance method to match pwd coming from user.
+UserSchema.methods.matchPassword = async function (pwdByUser) {
+  const match = await bcrypt.compare(pwdByUser, this.password);
+  return match;
+};
+
 export default mongoose.model("User", UserSchema);

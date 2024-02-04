@@ -1,3 +1,4 @@
+import AuthErrors from "../errors/auth-errors.js";
 import BadRequestErrors from "../errors/bad-request-errors.js";
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
@@ -31,8 +32,26 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = (req, res) => {
-  res.send("login controller");
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      throw new BadRequestErrors("Please provide email and password both.");
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new AuthErrors("Invalid credentials");
+    }
+    const isPwdCorrect = await user.matchPassword(password);
+    if (!isPwdCorrect) {
+      throw new AuthErrors("Invalid Credentials");
+    }
+    const token = user.createJWT();
+    res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
+  } catch (error) {
+    // console.error(error);
+    next(error);
+  }
 };
 
 export { register, login };
