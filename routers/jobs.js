@@ -3,7 +3,7 @@ import {
   createJob,
   deleteJob,
   getAllJobs,
-  getJobs,
+  getJob,
   updateJob,
 } from "../controllers/jobs.js";
 import checkAuth from "../middlewares/auth.js";
@@ -11,6 +11,6 @@ import checkAuth from "../middlewares/auth.js";
 const router = express.Router();
 
 router.route("/").get(getAllJobs).post(createJob);
-router.route("/:id").get(getJobs).patch(updateJob).delete(deleteJob);
+router.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
 
 export default router;
