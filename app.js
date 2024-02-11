@@ -13,7 +13,7 @@ import checkAuth from "./middlewares/auth.js";
 import helmet from "helmet";
 import cors from "cors";
 import xss from "xss-clean";
-import rateLimit from "express-rate-limit";
+import rateLimiter from "express-rate-limit";
 
 const app = express();
 app.use(express.json());
